@@ -4,6 +4,7 @@ import JavaAdvancedTraining.olivepress.olives.*;
 
 import java.lang.reflect.Constructor;
 import java.util.HashSet;
+import java.util.TreeSet;
 
 public class LocalClasses {
 
@@ -13,22 +14,14 @@ public class LocalClasses {
         Olive kal = new Kalamata();
         Olive pic = new Picholine();
 
-        // Set can have only 1 reference..dup is not counted even if you add it though.
-        HashSet<Olive> set = new HashSet<>();
-        set.add(lig);
-        set.add(kal);
-        System.out.println("there are " + set.size() + " olives in the set");
-
+        //if you don't implement java.lang.Comparable, it will throu run time exception
+        // This is always alphabetical
+        TreeSet<Olive> set = new TreeSet<>();
         set.add(pic);
-        System.out.println("there are " + set.size() + " olives in the set");
-
+        set.add(kal);
         set.add(lig);
-        System.out.println("there are " + set.size() + " olives in the set");
 
-        set.add(null);
-        System.out.println("there are " + set.size() + " olives in the set");
+        System.out.println(set);
 
-        set.remove(lig);
-        System.out.println("there are " + set.size() + " olives in the set");
     }
 }
