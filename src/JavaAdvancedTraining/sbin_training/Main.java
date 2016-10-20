@@ -8,52 +8,45 @@ import JavaAdvancedTraining.util.MyFileReader;
 
 import java.io.*;
 import java.lang.reflect.Constructor;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
-public class LocalClasses {
+public class Main {
 
     private static final boolean USE_ASSERT_DEBUG = false;
 
     public static void main(String[] args) throws IOException {
+        Path path = Paths.get("/tmp/ATextFile.txt");
+        System.out.println(path.toString());
+        System.out.println(path.getFileName());
+        System.out.println(path.getNameCount());
 
-        String fileContents = MyFileReader.readFile("TextFile2.txt");
-        System.out.println(fileContents);
+        // 0 is tmp, 1 is ATextFile.txt.. getnamecount -1 always returns the file name..
+        System.out.println(path.getName(path.getNameCount()-1));
 
-        try {
-            if (fileContents.equals("Right file")){
-                System.out.println("You chose the right file");
-            }
-            else {
-                throw(new WrongFileException());
-            }
-        } catch (WrongFileException e) {
-            System.out.println(e.getMessage());
-        }
+        path = Paths.get("ATextFile.txt");
+        Path realPath = path.toRealPath(LinkOption.NOFOLLOW_LINKS);
+        System.out.println(realPath);
+
+
 
         if (USE_ASSERT_DEBUG) {
-            try (
-                    FileReader fr = new FileReader("ATextFile.txt");
-                    BufferedReader br = new BufferedReader(fr);
-            ) {
-                String s;
-                while ((s = br.readLine()) != null) {
-                    System.out.println(s);
+            String fileContents = MyFileReader.readFile("TextFile2.txt");
+            System.out.println(fileContents);
+
+            try {
+                if (fileContents.equals("Right file")){
+                    System.out.println("You chose the right file");
                 }
-
-            } catch (FileNotFoundException e) {
+                else {
+                    throw(new WrongFileException());
+                }
+            } catch (WrongFileException e) {
                 System.out.println(e.getMessage());
-
-            }
-        /*finally {
-            System.out.println("Excuting finally");
-            if (fr != null){
-                fr.close();
-            }
-            if (br != null){
-                br.close();
             }
 
-        }*/
 
             System.out.println("Still alive!!");
 
