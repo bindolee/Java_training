@@ -9,22 +9,16 @@ public class Olive {
         public static final long BLACK = 0x000000;
 
         public OliveName oliveName;
-        public long color = BLACK;
+        public OliveColor color;
 
-        public Olive() {
-        }
-
-        public Olive(OliveName oliveName) {
+        public Olive(OliveName oliveName, OliveColor color) {
             this.oliveName = oliveName;
-        }
-
-        public Olive(OliveName oliveName, long color) {
-            this(oliveName);
             this.color = color;
         }
 
         public String toString() {
-            return "name: " + this.oliveName + ": " + "color: " +  this.color;
+            return "name: " + this.oliveName.toString()
+                    + ": " + "color: " +  this.color.toString();
         }
 
 
