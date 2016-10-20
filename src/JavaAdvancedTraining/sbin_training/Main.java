@@ -8,9 +8,7 @@ import JavaAdvancedTraining.util.MyFileReader;
 
 import java.io.*;
 import java.lang.reflect.Constructor;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.*;
 
 public class Main {
@@ -18,17 +16,25 @@ public class Main {
     private static final boolean USE_ASSERT_DEBUG = false;
 
     public static void main(String[] args) throws IOException {
-        Path path = Paths.get("/tmp/ATextFile.txt");
-        System.out.println(path.toString());
-        System.out.println(path.getFileName());
-        System.out.println(path.getNameCount());
+        Path source = Paths.get("files/loremipsum.txt");
+        System.out.println(source.getFileName());
+        Path target = Paths.get("files/newfile.txt");
 
-        // 0 is tmp, 1 is ATextFile.txt.. getnamecount -1 always returns the file name..
-        System.out.println(path.getName(path.getNameCount()-1));
+        //how to copy
+        Files.copy(source,target, StandardCopyOption.REPLACE_EXISTING);
 
-        path = Paths.get("ATextFile.txt");
-        Path realPath = path.toRealPath(LinkOption.NOFOLLOW_LINKS);
-        System.out.println(realPath);
+        //how to delete
+/*        Path toDelete = Paths.get("files/todelete.txt");
+        Files.delete(toDelete);
+        System.out.println("File Deleted");*/
+
+        //Create new Dir
+        Path newdir = Paths.get("files/newdir");
+        Files.createDirectory(newdir);
+
+        // to move file, you need resolve..
+        Files.move(source, newdir.resolve(source.getFileName()),
+                StandardCopyOption.REPLACE_EXISTING);
 
 
 
