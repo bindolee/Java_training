@@ -2,7 +2,9 @@ package JavaAdvancedTraining.sbin_training;
 
 import JavaAdvancedTraining.Calculator.InputHelper;
 import JavaAdvancedTraining.Calculator.MathHelper;
+import JavaAdvancedTraining.exceptions.WrongFileException;
 import JavaAdvancedTraining.olivepress.olives.*;
+import JavaAdvancedTraining.util.MyFileReader;
 
 import java.io.*;
 import java.lang.reflect.Constructor;
@@ -14,20 +16,34 @@ public class LocalClasses {
 
     public static void main(String[] args) throws IOException {
 
-        try (
-                FileReader fr = new FileReader("ATextFile.txt");
-                BufferedReader br = new BufferedReader(fr);
-        )
-        {
-            String s;
-            while((s = br.readLine()) != null) {
-                System.out.println(s);
+        String fileContents = MyFileReader.readFile("TextFile2.txt");
+        System.out.println(fileContents);
+
+        try {
+            if (fileContents.equals("Right file")){
+                System.out.println("You chose the right file");
             }
-
-        } catch (FileNotFoundException e){
+            else {
+                throw(new WrongFileException());
+            }
+        } catch (WrongFileException e) {
             System.out.println(e.getMessage());
-
         }
+
+        if (USE_ASSERT_DEBUG) {
+            try (
+                    FileReader fr = new FileReader("ATextFile.txt");
+                    BufferedReader br = new BufferedReader(fr);
+            ) {
+                String s;
+                while ((s = br.readLine()) != null) {
+                    System.out.println(s);
+                }
+
+            } catch (FileNotFoundException e) {
+                System.out.println(e.getMessage());
+
+            }
         /*finally {
             System.out.println("Excuting finally");
             if (fr != null){
@@ -39,9 +55,8 @@ public class LocalClasses {
 
         }*/
 
-        System.out.println("Still alive!!");
+            System.out.println("Still alive!!");
 
-        if (USE_ASSERT_DEBUG) {
         /* way to test using assert */
             String s1 = InputHelper.getInput("Enter a numeric value: ");
             assert checkInt(s1);
