@@ -1,30 +1,34 @@
 package JavaAdvancedTraining.sbin_training;
 
-import JavaAdvancedTraining.olivepress.olives.Ligurio;
-import JavaAdvancedTraining.olivepress.olives.Olive;
-import JavaAdvancedTraining.olivepress.olives.OliveColor;
-import JavaAdvancedTraining.olivepress.olives.OliveName;
+import JavaAdvancedTraining.olivepress.olives.*;
 
 import java.lang.reflect.Constructor;
+import java.util.HashSet;
 
 public class LocalClasses {
 
     public static void main(String[] args) throws Exception {
 
-        Object o = new Ligurio();
-        Class<?> c = o.getClass();
-        System.out.println("Class Name: " + c.getName());
+        Olive lig = new Ligurio();
+        Olive kal = new Kalamata();
+        Olive pic = new Picholine();
 
-        // Super class of Ligurio class
-        Class<?> sup = c.getSuperclass();
-        System.out.println("Class Name: " + sup.getName());
+        // Set can have only 1 reference..dup is not counted even if you add it though.
+        HashSet<Olive> set = new HashSet<>();
+        set.add(lig);
+        set.add(kal);
+        System.out.println("there are " + set.size() + " olives in the set");
 
-        // Super class of Olive class
-        Class<?> top = sup.getSuperclass();
-        System.out.println("Class Name: " + top.getName());
+        set.add(pic);
+        System.out.println("there are " + set.size() + " olives in the set");
 
-        Package p = c.getPackage();
-        System.out.println("Package: "+ p.getName());
+        set.add(lig);
+        System.out.println("there are " + set.size() + " olives in the set");
 
+        set.add(null);
+        System.out.println("there are " + set.size() + " olives in the set");
+
+        set.remove(lig);
+        System.out.println("there are " + set.size() + " olives in the set");
     }
 }
