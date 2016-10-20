@@ -13,11 +13,17 @@ public class LocalClasses {
 
         list.add(new Picholine());
         list.add(new Kalamata());
-
         list.add(1, new Golden());
         list.addFirst(new Ligurio());
         display(list);
 
+        Olive o1 = list.peek(); // this doesn't get removed from list though
+        System.out.println(o1.oliveName.toString());
+        display(list);
+
+        o1 = list.poll(); // removed from the list
+        System.out.println(o1.oliveName.toString());
+        display(list);
     }
 
     static private void display(Collection<Olive> col){
