@@ -3,6 +3,7 @@ package JavaAdvancedTraining.sbin_training;
 import JavaAdvancedTraining.Calculator.InputHelper;
 import JavaAdvancedTraining.Calculator.MathHelper;
 import JavaAdvancedTraining.exceptions.WrongFileException;
+import JavaAdvancedTraining.filetree.MyFileVisitor;
 import JavaAdvancedTraining.olivepress.olives.*;
 import JavaAdvancedTraining.util.MyFileReader;
 
@@ -17,51 +18,56 @@ public class Main {
     private static final boolean USE_ASSERT_DEBUG = false;
 
     public static void main(String[] args) throws IOException {
-        Path source = Paths.get("files/loremipsum.txt");
-        System.out.println(source.getFileName());
-        Path target = Paths.get("files/newfile.txt");
-        System.out.println(target.getFileName());
 
-        Charset charset = Charset.forName("US-ASCII");
-        ArrayList<String> lines = new ArrayList<>();
-
-        BufferedReader reader = null;
-        try
-        {
-            reader = Files.newBufferedReader(source, charset);
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                //System.out.println(line);
-                lines.add(line);
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }finally {
-            reader.close();
-        }
-
-        BufferedWriter writer = null;
-        try
-        {
-            writer = Files.newBufferedWriter(target, charset);
-            Iterator<String> iterator = lines.iterator();
-
-            while(iterator.hasNext()) {
-                String s = iterator.next();
-                System.out.println("Inside of iterator: "+s);
-                writer.append(s, 0, s.length());
-                writer.newLine();
-            }
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        finally {
-            writer.close();
-        }
-
+        Path fileDir = Paths.get("files");
+        MyFileVisitor visitor = new MyFileVisitor();
+        Files.walkFileTree(fileDir,visitor);
 
         if (USE_ASSERT_DEBUG) {
+            Path source = Paths.get("files/loremipsum.txt");
+            System.out.println(source.getFileName());
+            Path target = Paths.get("files/newfile.txt");
+            System.out.println(target.getFileName());
+
+            Charset charset = Charset.forName("US-ASCII");
+            ArrayList<String> lines = new ArrayList<>();
+
+            BufferedReader reader = null;
+            try
+            {
+                reader = Files.newBufferedReader(source, charset);
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    //System.out.println(line);
+                    lines.add(line);
+                }
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }finally {
+                reader.close();
+            }
+
+            BufferedWriter writer = null;
+            try
+            {
+                writer = Files.newBufferedWriter(target, charset);
+                Iterator<String> iterator = lines.iterator();
+
+                while(iterator.hasNext()) {
+                    String s = iterator.next();
+                    System.out.println("Inside of iterator: "+s);
+                    writer.append(s, 0, s.length());
+                    writer.newLine();
+                }
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+            finally {
+                writer.close();
+            }
+
+
             String fileContents = MyFileReader.readFile("TextFile2.txt");
             System.out.println(fileContents);
 
