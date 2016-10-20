@@ -3,25 +3,29 @@ package JavaAdvancedTraining.sbin_training;
 import JavaAdvancedTraining.olivepress.olives.*;
 
 import java.lang.reflect.Constructor;
-import java.util.HashSet;
-import java.util.TreeSet;
+import java.util.*;
 
 public class LocalClasses {
 
     public static void main(String[] args) throws Exception {
 
-        Olive lig = new Ligurio();
-        Olive kal = new Kalamata();
-        Olive pic = new Picholine();
+        LinkedList<Olive> list = new LinkedList<>();
 
-        //if you don't implement java.lang.Comparable, it will throu run time exception
-        // This is always alphabetical
-        TreeSet<Olive> set = new TreeSet<>();
-        set.add(pic);
-        set.add(kal);
-        set.add(lig);
+        list.add(new Picholine());
+        list.add(new Kalamata());
 
-        System.out.println(set);
+        list.add(1, new Golden());
+        list.addFirst(new Ligurio());
+        display(list);
 
+    }
+
+    static private void display(Collection<Olive> col){
+        System.out.println("List order: ");
+        Iterator<Olive> iterator = col.iterator();
+        while(iterator.hasNext()){
+            Olive olive = (Olive) iterator.next();
+            System.out.println(olive.oliveName.toString());
+        }
     }
 }
