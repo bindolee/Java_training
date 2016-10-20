@@ -1,5 +1,6 @@
 package JavaAdvancedTraining.sbin_training;
 
+import JavaAdvancedTraining.olivepress.olives.Ligurio;
 import JavaAdvancedTraining.olivepress.olives.Olive;
 import JavaAdvancedTraining.olivepress.olives.OliveColor;
 import JavaAdvancedTraining.olivepress.olives.OliveName;
@@ -10,23 +11,20 @@ public class LocalClasses {
 
     public static void main(String[] args) throws Exception {
 
-        Olive o = new Olive(OliveName.PICHOLINE,
-                OliveColor.GREEN);
-
-        // ? means I don't know what class..
+        Object o = new Ligurio();
         Class<?> c = o.getClass();
+        System.out.println("Class Name: " + c.getName());
 
-        System.out.println(c);
-        System.out.println(c.getName());
-        System.out.println(c.getSimpleName());
+        // Super class of Ligurio class
+        Class<?> sup = c.getSuperclass();
+        System.out.println("Class Name: " + sup.getName());
 
-        Constructor<?>[] constructors = c.getConstructors();
-        System.out.println("Number of constructors: " + constructors.length);
+        // Super class of Olive class
+        Class<?> top = sup.getSuperclass();
+        System.out.println("Class Name: " + top.getName());
 
-        Constructor<?> con = constructors[0]; // 1st constructor
-        Object obj = null;
+        Package p = c.getPackage();
+        System.out.println("Package: "+ p.getName());
 
-        obj = con.newInstance(OliveName.PICHOLINE, OliveColor.GREEN);
-        System.out.println(obj);
     }
 }
