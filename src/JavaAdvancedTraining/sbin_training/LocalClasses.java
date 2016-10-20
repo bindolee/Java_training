@@ -1,5 +1,7 @@
 package JavaAdvancedTraining.sbin_training;
 
+import JavaAdvancedTraining.Calculator.InputHelper;
+import JavaAdvancedTraining.Calculator.MathHelper;
 import JavaAdvancedTraining.olivepress.olives.*;
 
 import java.lang.reflect.Constructor;
@@ -7,31 +9,48 @@ import java.util.*;
 
 public class LocalClasses {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
-        LinkedList<Olive> list = new LinkedList<>();
+        String s1 = InputHelper.getInput("Enter a numeric value: ");
+        assert checkInt(s1);
+        String s2 = InputHelper.getInput("Enter a numeric value: ");
+        assert checkInt(s2);
+        String op = InputHelper.getInput("Enter + or - or * or / ");
+        assert checkInt(op);
 
-        list.add(new Picholine());
-        list.add(new Kalamata());
-        list.add(1, new Golden());
-        list.addFirst(new Ligurio());
-        display(list);
+        double result = 0;
 
-        Olive o1 = list.peek(); // this doesn't get removed from list though
-        System.out.println(o1.oliveName.toString());
-        display(list);
+        switch (op) {
+            case "+":
 
-        o1 = list.poll(); // removed from the list
-        System.out.println(o1.oliveName.toString());
-        display(list);
+                result = MathHelper.addValues(s1, s2);
+                break;
+            case "-":
+                result = MathHelper.subtractValues(s1, s2);
+                break;
+            case "*":
+                result = MathHelper.multiplyValues(s1, s2);
+                break;
+            case "/":
+                result = MathHelper.divideValues(s1, s2);
+                break;
+
+            default:
+                System.out.println("You entered an incorrect operator");
+                return;
+        }
+
+        System.out.println("The answer is " + result);
     }
 
-    static private void display(Collection<Olive> col){
-        System.out.println("List order: ");
-        Iterator<Olive> iterator = col.iterator();
-        while(iterator.hasNext()){
-            Olive olive = (Olive) iterator.next();
-            System.out.println(olive.oliveName.toString());
+    // This is way to testing using assert...need to add -ea argument to enable assert.
+    private static boolean checkInt(String s){
+        try {
+            Integer.parseInt(s);
+            return true;
+        }
+        catch(Exception e){
+            return false;
         }
     }
 }
