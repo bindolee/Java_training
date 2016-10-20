@@ -23,33 +23,43 @@ public class Main {
         System.out.println(target.getFileName());
 
         Charset charset = Charset.forName("US-ASCII");
-        BufferedReader reader = null;
         ArrayList<String> lines = new ArrayList<>();
 
-        try{
-            String line = null;
+        BufferedReader reader = null;
+        try
+        {
             reader = Files.newBufferedReader(source, charset);
-            while ((line = reader.readLine()) != null){
-                System.out.println(line);
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                //System.out.println(line);
                 lines.add(line);
             }
-        }catch (Exception e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
+        }finally {
+            reader.close();
         }
 
         BufferedWriter writer = null;
-        try {
+        try
+        {
             writer = Files.newBufferedWriter(target, charset);
             Iterator<String> iterator = lines.iterator();
-            while(iterator.hasNext()){
+
+            while(iterator.hasNext()) {
                 String s = iterator.next();
+                System.out.println("Inside of iterator: "+s);
                 writer.append(s, 0, s.length());
                 writer.newLine();
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        finally {
+            writer.close();
+        }
+
 
         if (USE_ASSERT_DEBUG) {
             String fileContents = MyFileReader.readFile("TextFile2.txt");
