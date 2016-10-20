@@ -13,11 +13,12 @@ public class LocalClasses {
     private static final boolean USE_ASSERT_DEBUG = false;
 
     public static void main(String[] args) throws IOException {
-        FileReader fr = null;
-        BufferedReader br = null;
-        try {
-            fr = new FileReader("ATextFile.txt");
-            br = new BufferedReader(fr);
+
+        try (
+                FileReader fr = new FileReader("ATextFile.txt");
+                BufferedReader br = new BufferedReader(fr);
+        )
+        {
             String s;
             while((s = br.readLine()) != null) {
                 System.out.println(s);
@@ -26,7 +27,8 @@ public class LocalClasses {
         } catch (FileNotFoundException e){
             System.out.println(e.getMessage());
 
-        } finally {
+        }
+        /*finally {
             System.out.println("Excuting finally");
             if (fr != null){
                 fr.close();
@@ -35,7 +37,7 @@ public class LocalClasses {
                 br.close();
             }
 
-        }
+        }*/
 
         System.out.println("Still alive!!");
 
