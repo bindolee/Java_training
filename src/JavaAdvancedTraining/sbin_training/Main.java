@@ -8,6 +8,7 @@ import JavaAdvancedTraining.util.MyFileReader;
 
 import java.io.*;
 import java.lang.reflect.Constructor;
+import java.nio.charset.Charset;
 import java.nio.file.*;
 import java.util.*;
 
@@ -19,24 +20,36 @@ public class Main {
         Path source = Paths.get("files/loremipsum.txt");
         System.out.println(source.getFileName());
         Path target = Paths.get("files/newfile.txt");
+        System.out.println(target.getFileName());
 
-        //how to copy
-        Files.copy(source,target, StandardCopyOption.REPLACE_EXISTING);
+        Charset charset = Charset.forName("US-ASCII");
+        BufferedReader reader = null;
+        ArrayList<String> lines = new ArrayList<>();
 
-        //how to delete
-/*        Path toDelete = Paths.get("files/todelete.txt");
-        Files.delete(toDelete);
-        System.out.println("File Deleted");*/
+        try{
+            String line = null;
+            reader = Files.newBufferedReader(source, charset);
+            while ((line = reader.readLine()) != null){
+                System.out.println(line);
+                lines.add(line);
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
 
-        //Create new Dir
-        Path newdir = Paths.get("files/newdir");
-        Files.createDirectory(newdir);
+        BufferedWriter writer = null;
+        try {
+            writer = Files.newBufferedWriter(target, charset);
+            Iterator<String> iterator = lines.iterator();
+            while(iterator.hasNext()){
+                String s = iterator.next();
+                writer.append(s, 0, s.length());
+                writer.newLine();
+            }
 
-        // to move file, you need resolve..
-        Files.move(source, newdir.resolve(source.getFileName()),
-                StandardCopyOption.REPLACE_EXISTING);
-
-
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
 
         if (USE_ASSERT_DEBUG) {
             String fileContents = MyFileReader.readFile("TextFile2.txt");
