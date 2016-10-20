@@ -1,16 +1,21 @@
 package JavaAdvancedTraining.sbin_training;
 
-import JavaAdvancedTraining.olivepress.olives.OliveJar;
+import JavaAdvancedTraining.olivepress.olives.Olive;
 import JavaAdvancedTraining.olivepress.olives.OliveName;
 
 public class LocalClasses {
 
     public static void main(String[] args) throws Exception {
 
-        OliveJar jar = new OliveJar();
-        jar.addOlive(OliveName.KALAMATA, 0x000000);
-        jar.addOlive(OliveName.PICHOLINE, 0x000000);
-        jar.addOlive(OliveName.LIGURIO, 0x000000);
-        jar.reportOlives();
+        Olive o = new Olive(OliveName.PICHOLINE,
+                0x00FF00);
+
+        // ? means I don't know what class..
+        Class<?> c = o.getClass();
+
+        System.out.println(c);
+        System.out.println(c.getName());
+        System.out.println(c.getSimpleName());
+
     }
 }
