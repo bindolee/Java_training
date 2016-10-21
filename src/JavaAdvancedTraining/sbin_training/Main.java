@@ -6,6 +6,7 @@ import JavaAdvancedTraining.exceptions.WrongFileException;
 import JavaAdvancedTraining.filetree.FileFinder;
 import JavaAdvancedTraining.filetree.MyFileVisitor;
 import JavaAdvancedTraining.olivepress.olives.*;
+import JavaAdvancedTraining.threads.MyRunnable;
 import JavaAdvancedTraining.threads.MyThread;
 import JavaAdvancedTraining.util.MyFileReader;
 
@@ -22,9 +23,13 @@ public class Main {
     public static void main(String[] args) {
 
         int iterations = 3;
+        //This is using customer thread class
         MyThread thread = new MyThread();
-
         thread.start(); // this call run from MyThread class
+
+        // This is way to implement runnable
+        MyRunnable runnable = new MyRunnable();
+        new Thread(runnable).start();
 
         try {
             for (int i=0; i < iterations; i++){
