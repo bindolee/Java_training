@@ -5,17 +5,26 @@ package JavaAdvancedTraining.threads;
  */
 public class MyThread extends Thread {
 
+    private int threadId;
+    private TargetClass target;
+
+    public MyThread(int threadId, TargetClass target){
+        this.threadId = threadId;
+        this.target = target;
+    }
+
     //thread class must have run method at least..
     @Override
     public void run() {
-        int iterations = 5;
-        try {
-            for (int i=0; i<iterations;i++){
-                System.out.println("From secondary thread");
-                sleep(1000); //2000 milisec is 2 seconds.
+
+        synchronized (target){
+            try {
+                sleep(2000);//2000 milisec is 2 seconds.
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        } catch (InterruptedException e) {
-            System.out.println("Thread Interrupted");
+            target.call(threadId);
         }
+
     }
 }
