@@ -6,6 +6,7 @@ import JavaAdvancedTraining.exceptions.WrongFileException;
 import JavaAdvancedTraining.filetree.FileFinder;
 import JavaAdvancedTraining.filetree.MyFileVisitor;
 import JavaAdvancedTraining.olivepress.olives.*;
+import JavaAdvancedTraining.threads.MyThread;
 import JavaAdvancedTraining.util.MyFileReader;
 
 import java.io.*;
@@ -20,21 +21,18 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //Deal with comma, tab..separated text file scan
-        Scanner s = null;
+        int iterations = 3;
+        MyThread thread = new MyThread();
 
-        try{
-            s = new Scanner(new BufferedReader(new FileReader("tokenizedtext.txt")));
-            s.useDelimiter(",");
-            while (s.hasNext()){
-                //Default token is by space char
-                System.out.println(s.next());
+        thread.start(); // this call run from MyThread class
+
+        try {
+            for (int i=0; i < iterations; i++){
+                System.out.println("from main process");
+                Thread.sleep(3000); // has to call sleep from Static class
             }
-            System.out.println("Complete");
-            s.close();
-        }
-        catch (FileNotFoundException e){
-            e.printStackTrace();
+        } catch (InterruptedException e) {
+            System.err.println(e);
         }
 
     }
