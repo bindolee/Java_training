@@ -20,20 +20,23 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //byte stream examples.. copy 1 byte and write it ..
-        //this typically used in for binary file.
-        FileInputStream in = null;
-        FileOutputStream out = null;
+        //if you are working on character based file, then
+        // use filereader/writer instead. This handles character sets
+        //other than UTF-8
+        FileReader in = null;
+        FileWriter out = null;
         try{
-       /*     in = new FileInputStream("textfile.txt");
-            out = new FileOutputStream("new.txt");*/
+            in = new FileReader("textfile.txt");
+            out = new FileWriter("newfile.txt");
 
-            in = new FileInputStream("flower.jpg");
-            out = new FileOutputStream("newflower.jpg");
+/*            in = new FileInputStream("flower.jpg");
+            out = new FileOutputStream("newflower.jpg");*/
             int c; // filestream return 1 byte..
             while ((c = in.read()) != -1 ){
                 out.write(c);
             }
+            out.close();
+            in.close();
         }
         catch (FileNotFoundException e){
             e.printStackTrace();
@@ -41,6 +44,7 @@ public class Main {
         catch (IOException e){
             e.printStackTrace();
         }
+
     }
 
     // This is way to testing using assert...need to add -ea argument to enable assert.
