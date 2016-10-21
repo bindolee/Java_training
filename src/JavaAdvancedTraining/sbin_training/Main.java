@@ -20,26 +20,20 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //When to deal large text file, good to use buffered file reader and writer..into memory
-        BufferedReader in = null;
-        BufferedWriter out = null;
+        //Deal with comma, tab..separated text file scan
+        Scanner s = null;
+
         try{
-            in = new BufferedReader(new FileReader("hamlet.xml"));
-            out = new BufferedWriter(new FileWriter("newfile.txt"));
-
-
-            int c; // filestream return 1 byte..
-            while ((c = in.read()) != -1 ){
-                out.write(c);
+            s = new Scanner(new BufferedReader(new FileReader("tokenizedtext.txt")));
+            s.useDelimiter(",");
+            while (s.hasNext()){
+                //Default token is by space char
+                System.out.println(s.next());
             }
             System.out.println("Complete");
-            out.close();
-            in.close();
+            s.close();
         }
         catch (FileNotFoundException e){
-            e.printStackTrace();
-        }
-        catch (IOException e){
             e.printStackTrace();
         }
 
