@@ -20,21 +20,48 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        Path fileDir = Paths.get("files");
-        FileFinder finder = new FileFinder("file*.txt");
-        Files.walkFileTree(fileDir, finder);
+        WatchService service = null;
+        try {
+            service = FileSystems.getDefault().newWatchService();
+            Map<WatchKey, Path> keyMap = new HashMap<>();
+            Path path = Paths.get("files_sbin");
+            keyMap.put(path.register(service,
+                    StandardWatchEventKinds.ENTRY_CREATE,
+                    StandardWatchEventKinds.ENTRY_DELETE,
+                    StandardWatchEventKinds.ENTRY_MODIFY),
+                    path);
 
-        ArrayList<Path> foundFiles = finder.foundPaths;
-        if (foundFiles.size() > 0){
-            for (Path path : foundFiles ) {
-                    System.out.println(path.toRealPath(LinkOption.NOFOLLOW_LINKS));
-            }
-        }
-        else{
-            System.out.println("No Files were found");
+            WatchKey watchKey;
+
+            do {
+                watchKey = service.take();
+                Path eventDir = keyMap.get(watchKey);
+
+                for (WatchEvent<?> event : watchKey.pollEvents()){
+                    WatchEvent.Kind<?> kind = event.kind();
+                    Path eventPath = (Path) event.context();
+                    System.out.println(eventDir + ": "+ kind + ": "+ eventPath);
+                }
+            } while (watchKey.reset());
+        }catch (Exception e){
+
         }
 
         if (USE_ASSERT_DEBUG) {
+            Path fileDir = Paths.get("files");
+            FileFinder finder = new FileFinder("file*.txt");
+            Files.walkFileTree(fileDir, finder);
+
+            ArrayList<Path> foundFiles = finder.foundPaths;
+            if (foundFiles.size() > 0){
+                for (Path path : foundFiles ) {
+                    System.out.println(path.toRealPath(LinkOption.NOFOLLOW_LINKS));
+                }
+            }
+            else{
+                System.out.println("No Files were found");
+            }
+
             Path source = Paths.get("files/loremipsum.txt");
             System.out.println(source.getFileName());
             Path target = Paths.get("files/newfile.txt");
