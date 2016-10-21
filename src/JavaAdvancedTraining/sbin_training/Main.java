@@ -20,21 +20,19 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //if you are working on character based file, then
-        // use filereader/writer instead. This handles character sets
-        //other than UTF-8
-        FileReader in = null;
-        FileWriter out = null;
+        //When to deal large text file, good to use buffered file reader and writer..into memory
+        BufferedReader in = null;
+        BufferedWriter out = null;
         try{
-            in = new FileReader("textfile.txt");
-            out = new FileWriter("newfile.txt");
+            in = new BufferedReader(new FileReader("hamlet.xml"));
+            out = new BufferedWriter(new FileWriter("newfile.txt"));
 
-/*            in = new FileInputStream("flower.jpg");
-            out = new FileOutputStream("newflower.jpg");*/
+
             int c; // filestream return 1 byte..
             while ((c = in.read()) != -1 ){
                 out.write(c);
             }
+            System.out.println("Complete");
             out.close();
             in.close();
         }
