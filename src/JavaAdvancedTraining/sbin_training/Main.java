@@ -16,144 +16,30 @@ import java.util.*;
 
 public class Main {
 
-    private static final boolean USE_ASSERT_DEBUG = false;
+    private static final boolean USE_OLD_STUDY = false;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
-        WatchService service = null;
-        try {
-            service = FileSystems.getDefault().newWatchService();
-            Map<WatchKey, Path> keyMap = new HashMap<>();
-            Path path = Paths.get("files_sbin");
-            keyMap.put(path.register(service,
-                    StandardWatchEventKinds.ENTRY_CREATE,
-                    StandardWatchEventKinds.ENTRY_DELETE,
-                    StandardWatchEventKinds.ENTRY_MODIFY),
-                    path);
+        //byte stream examples.. copy 1 byte and write it ..
+        //this typically used in for binary file.
+        FileInputStream in = null;
+        FileOutputStream out = null;
+        try{
+       /*     in = new FileInputStream("textfile.txt");
+            out = new FileOutputStream("new.txt");*/
 
-            WatchKey watchKey;
-
-            do {
-                watchKey = service.take();
-                Path eventDir = keyMap.get(watchKey);
-
-                for (WatchEvent<?> event : watchKey.pollEvents()){
-                    WatchEvent.Kind<?> kind = event.kind();
-                    Path eventPath = (Path) event.context();
-                    System.out.println(eventDir + ": "+ kind + ": "+ eventPath);
-                }
-            } while (watchKey.reset());
-        }catch (Exception e){
-
+            in = new FileInputStream("flower.jpg");
+            out = new FileOutputStream("newflower.jpg");
+            int c; // filestream return 1 byte..
+            while ((c = in.read()) != -1 ){
+                out.write(c);
+            }
         }
-
-        if (USE_ASSERT_DEBUG) {
-            Path fileDir = Paths.get("files");
-            FileFinder finder = new FileFinder("file*.txt");
-            Files.walkFileTree(fileDir, finder);
-
-            ArrayList<Path> foundFiles = finder.foundPaths;
-            if (foundFiles.size() > 0){
-                for (Path path : foundFiles ) {
-                    System.out.println(path.toRealPath(LinkOption.NOFOLLOW_LINKS));
-                }
-            }
-            else{
-                System.out.println("No Files were found");
-            }
-
-            Path source = Paths.get("files/loremipsum.txt");
-            System.out.println(source.getFileName());
-            Path target = Paths.get("files/newfile.txt");
-            System.out.println(target.getFileName());
-
-            Charset charset = Charset.forName("US-ASCII");
-            ArrayList<String> lines = new ArrayList<>();
-
-            BufferedReader reader = null;
-            try
-            {
-                reader = Files.newBufferedReader(source, charset);
-                String line = null;
-                while ((line = reader.readLine()) != null) {
-                    //System.out.println(line);
-                    lines.add(line);
-                }
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }finally {
-                reader.close();
-            }
-
-            BufferedWriter writer = null;
-            try
-            {
-                writer = Files.newBufferedWriter(target, charset);
-                Iterator<String> iterator = lines.iterator();
-
-                while(iterator.hasNext()) {
-                    String s = iterator.next();
-                    System.out.println("Inside of iterator: "+s);
-                    writer.append(s, 0, s.length());
-                    writer.newLine();
-                }
-
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-            finally {
-                writer.close();
-            }
-
-
-            String fileContents = MyFileReader.readFile("TextFile2.txt");
-            System.out.println(fileContents);
-
-            try {
-                if (fileContents.equals("Right file")){
-                    System.out.println("You chose the right file");
-                }
-                else {
-                    throw(new WrongFileException());
-                }
-            } catch (WrongFileException e) {
-                System.out.println(e.getMessage());
-            }
-
-
-            System.out.println("Still alive!!");
-
-        /* way to test using assert */
-            String s1 = InputHelper.getInput("Enter a numeric value: ");
-            assert checkInt(s1);
-            String s2 = InputHelper.getInput("Enter a numeric value: ");
-            assert checkInt(s2);
-            String op = InputHelper.getInput("Enter + or - or * or / ");
-            assert checkInt(op);
-
-            double result = 0;
-
-            switch (op) {
-                case "+":
-
-                    result = MathHelper.addValues(s1, s2);
-                    break;
-                case "-":
-                    result = MathHelper.subtractValues(s1, s2);
-                    break;
-                case "*":
-                    result = MathHelper.multiplyValues(s1, s2);
-                    break;
-                case "/":
-                    result = MathHelper.divideValues(s1, s2);
-                    break;
-
-                default:
-                    System.out.println("You entered an incorrect operator");
-                    return;
-            }
-
-            System.out.println("The answer is " + result);
+        catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+        catch (IOException e){
+            e.printStackTrace();
         }
     }
 
