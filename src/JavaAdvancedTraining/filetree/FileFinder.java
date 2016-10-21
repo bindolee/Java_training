@@ -14,7 +14,7 @@ public class FileFinder extends SimpleFileVisitor<Path> {
     public ArrayList<Path> foundPaths = new ArrayList<>();
 
     public FileFinder(String pattern) {
-        matcher = FileSystems.getDefault().getPathMatcher("glob: " + pattern);
+        matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
     }
 
     @Override
