@@ -3,6 +3,7 @@ package JavaAdvancedTraining.sbin_training;
 import JavaAdvancedTraining.Calculator.InputHelper;
 import JavaAdvancedTraining.Calculator.MathHelper;
 import JavaAdvancedTraining.exceptions.WrongFileException;
+import JavaAdvancedTraining.filetree.FileFinder;
 import JavaAdvancedTraining.filetree.MyFileVisitor;
 import JavaAdvancedTraining.olivepress.olives.*;
 import JavaAdvancedTraining.util.MyFileReader;
@@ -20,8 +21,18 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         Path fileDir = Paths.get("files");
-        MyFileVisitor visitor = new MyFileVisitor();
-        Files.walkFileTree(fileDir,visitor);
+        FileFinder finder = new FileFinder("file*.txt");
+        Files.walkFileTree(fileDir, finder);
+
+        ArrayList<Path> foundFiles = finder.foundPaths;
+        if (foundFiles.size() > 0){
+            for (Path path : foundFiles ) {
+                    System.out.println(path.toRealPath(LinkOption.NOFOLLOW_LINKS));
+            }
+        }
+        else{
+            System.out.println("No Files were found");
+        }
 
         if (USE_ASSERT_DEBUG) {
             Path source = Paths.get("files/loremipsum.txt");
