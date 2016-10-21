@@ -12,10 +12,10 @@ public class MyThread extends Thread {
         try {
             for (int i=0; i<iterations;i++){
                 System.out.println("From secondary thread");
-                sleep(2000); //2000 milisec is 2 seconds.
+                sleep(1000); //2000 milisec is 2 seconds.
             }
         } catch (InterruptedException e) {
-            System.err.println(e);
+            System.out.println("Thread Interrupted");
         }
     }
 }

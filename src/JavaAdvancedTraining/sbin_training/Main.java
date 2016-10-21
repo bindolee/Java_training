@@ -24,10 +24,19 @@ public class Main {
 
         int iterations = 3;
         //This is using customer thread class
-        MyThread thread = new MyThread();
-        thread.start(); // this call run from MyThread class
+        MyThread t = new MyThread();
+        t.start(); // this call run from MyThread class
 
-        // This is way to implement runnable
+        try {
+            Thread.sleep(2500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        t.interrupt(); // interrupt the thread t
+        System.out.println("Called interrupt()");
+
+        /*// This is way to implement runnable
         MyRunnable runnable = new MyRunnable();
         new Thread(runnable).start();
 
@@ -39,7 +48,7 @@ public class Main {
         } catch (InterruptedException e) {
             System.err.println(e);
         }
-
+*/
     }
 
     // This is way to testing using assert...need to add -ea argument to enable assert.
